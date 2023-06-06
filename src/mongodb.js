@@ -1,25 +1,31 @@
 const mongoose = require("mongoose");
+let Schema = mongoose.Schema;
 
-mongoose.connect("mongodb://localhost:27017/LoginSignUpTutorial")
-.then(() => {
-    console.log("mongodb connected");
+mongoose.connect("mongodb+srv://canice:canice@cluster0.csub7q6.mongodb.net/?retryWrites=true&w=majority",  {useNewUrlParser: true})
+const connect = mongoose.connection;
+connect.on('connected', function(){
+    console.log('database is connected successfully');
 })
-.catch(() => {
-    console.log("failed to connect");
+connect.on('disconnected', function(){
+    console.log('database is disconnected successfully');
+})
+connect.on('error', function(){
+    console.log('database error occured');
 })
 
-const LoginSchema = new mongoose.Schema({
+
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-
+    email: String,
     password: {
         type: String,
         required: true
     }
 })
 
-const collection = new mongoose.model("Collection1", LoginSchema)
+const User = new mongoose.model("User", userSchema)
 
-module.exports = collection;
+module.exports = User;
